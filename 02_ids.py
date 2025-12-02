@@ -42,18 +42,3 @@ for rng in in_list:
 
 print(sum(inval_ids))
 
-
-# create sum of all invalid ids
-#print(sum(inval_ids))
-
-# can't have a leading zero
-# needs to be within one of the ranges (exclusive)
-# can't be a number that's repeated twice
-
-# generate sets of all valid numbers
-# union to one set
-# create invalid ids set & sum them up
-
-# Run it with the file input
-
-
