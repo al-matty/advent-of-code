@@ -1,4 +1,4 @@
-in_file = "02_input.txt"
+in_file = "../data/02_input.txt"
 
 
 # Get number strings

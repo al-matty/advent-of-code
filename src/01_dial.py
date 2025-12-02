@@ -1,4 +1,4 @@
-in_file = "01_input.txt"
+in_file = "../data/01_input.txt"
 
 class Dial:
 
