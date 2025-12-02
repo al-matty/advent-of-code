@@ -1,4 +1,4 @@
-in_file = "02_input.txt"
+in_file = "02_input_test.txt"
 
 # Read file
 with open(in_file) as content:
@@ -14,7 +14,7 @@ def extract_inclusive_range(in_str):
     return n_list
 
 # Test 1
-def is_mirror_number(in_str):
+def has_even_length(in_str):
     if len(in_str) % 2 == 0:
         return True
 
@@ -36,9 +36,8 @@ for rng in in_list:
     n_list = extract_inclusive_range(rng)
 
     for n_str in n_list:
-        if is_mirror_number(n_str):
+        if has_even_length(n_str):
             if has_equal_parts(n_str):
                 inval_ids.append(int(n_str))
 
 print(sum(inval_ids))
-

@@ -7,3 +7,4 @@ My attempt at solving all [Advent of Code 2025](https://adventofcode.com/2025) c
 ## Challenges so far
 
 [Day 01](01_dial.py)
+[Day 02 (first part)](02_ids.py)
