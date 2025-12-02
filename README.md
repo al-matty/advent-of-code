@@ -6,5 +6,7 @@ My attempt at solving all [Advent of Code 2025](https://adventofcode.com/2025) c
 
 ## Challenges so far
 
-[Day 01](01_dial.py)
-[Day 02 (first part)](02_ids.py)
+| Day | Challenge | Solution |
+|:----|:----------|:---------|
+[Day 01](src/01_dial.py) | dial turning | dial class  
+[Day 02](src/02_ids.py) | invalid IDs | str slices comparison
