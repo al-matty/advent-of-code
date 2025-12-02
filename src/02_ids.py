@@ -9,7 +9,7 @@ def extract_inclusive_range(in_str):
     n_list = [str(n) for n in n_list]
     return n_list
 
-def _has_equal_parts(in_str, pat_size):
+def has_equal_parts(in_str, pat_size):
     """Check if all slices of size {pat_size} are equal within str"""
     all_slices = {in_str[i:i+pat_size] for i in range(0, len(in_str), pat_size)}
 
@@ -35,7 +35,7 @@ def check_for_invalid(n_str):
         # Compare the first 2 chunks: If equal, do the more expensive test
         if chunk_1 == chunk_2:
 
-            if _has_equal_parts(n_str, pat_size):
+            if has_equal_parts(n_str, pat_size):
                 print(f"Found invalid: {n_str}")
     
                 return True
