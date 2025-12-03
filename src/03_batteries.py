@@ -1,5 +1,4 @@
-#in_file = "../data/03_input_test.txt"
-in_file = "data/03_input.txt"
+in_file = "../data/03_input.txt"
 n_digits = 12  # n ints to fetch from strings  
 
 
