@@ -61,7 +61,7 @@ arr_width = arr.shape[1]
 for i in range(arr.shape[0]):
     single_row = []
     # print(f"{arr[i]}\t<- current row")
-    
+
     for j in range(arr.shape[1]):
 
         adj_sum = get_adjacent_sum(arr, (i, j), arr_length, arr_width)
@@ -81,5 +81,5 @@ print(f"\nFiltered to where val<4:\n{filtered_arr}")
 overlaid_arr = arr + filtered_arr
 print(f"\nOverlaid array:\n{overlaid_arr}")
 final_arr = np.where(overlaid_arr == 2, 1, 0)
-print(f"\nFinal array of valid paper roll position:\n{final_arr}")
+print(f"\nFinal array of valid paper roll positions:\n{final_arr}")
 print(f"\nSum of valid rolls:\n{final_arr.sum()}")
