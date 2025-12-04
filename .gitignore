@@ -5,6 +5,7 @@ __pycache__/
 
 # AoC test data
 *test.txt
+*optimized.py
 
 # C extensions
 *.so
