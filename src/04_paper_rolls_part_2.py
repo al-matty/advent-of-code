@@ -89,7 +89,6 @@ summable_list = [[1 if char == '@' else 0 for char in line] for line in content_
 arr = np.array(summable_list)
 print(f"Initial array:\n{arr}")
 
-initial_run = True
 running_sum = 0
 
 # Iterate & track array sums. Stop when array sum = 0
