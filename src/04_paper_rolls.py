@@ -14,8 +14,6 @@ def get_adjacent_sum(in_arr, target_id, x_shape, y_shape):
     """Assumes array, id tuple, arr shape args. Returns sum of adjacent values"""
     x, y = target_id[0], target_id[1]
     # print(f"{target_id}\t<- incoming id tuple")
-    # print(f"{in_arr[target_id]}\t<- base val")
-    # print(f"{in_arr[x+1, y]}\t<- bm target val ({x-1}, {y})\n")
     
     # Initialize all vals as 0
     r, br, bm, bl, l, ul, u, ur = 0,0,0,0,0,0,0,0
@@ -63,9 +61,8 @@ arr_width = arr.shape[1]
 for i in range(arr.shape[0]):
     single_row = []
     # print(f"{arr[i]}\t<- current row")
-    # print(f"{arr[i+1]}\t<- row below")
+    
     for j in range(arr.shape[1]):
-        
 
         adj_sum = get_adjacent_sum(arr, (i, j), arr_length, arr_width)
         single_row.append(adj_sum)
