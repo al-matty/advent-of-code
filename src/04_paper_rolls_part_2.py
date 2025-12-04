@@ -6,7 +6,7 @@ Plan:
         Turn each 2 into a 0
         Run again with this as initial state
         Keep count of n_removed
-        Stop once sum(final_arr) = 0  <- no more free paper rolls
+        Stop once sum(final_arr) == 0  <- no more free paper rolls
 """
 
 import numpy as np
