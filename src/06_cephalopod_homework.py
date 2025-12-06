@@ -6,8 +6,7 @@ Plan:
 """
 import numpy as np
 
-in_file = "../data/06_input_test.txt"
-a = np.array([[1,2]])
+in_file = "../data/06_input.txt"
 
 with open(in_file) as content:
     raw_list = [line.strip() for line in content.readlines()]
