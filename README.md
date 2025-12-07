@@ -14,3 +14,4 @@ My attempt at solving all [Advent of Code 2025](https://adventofcode.com/2025) c
 Day 04 [(part 1)](src/04_paper_rolls.py) [(part 2)](src/04_paper_rolls_part_2.py) | paper rolls | numpy arrays
 [Day 05](src/05_ingredient_ids.py) | ingredient IDs | range comparison
 [Day 06](src/06_cephalopod_homework.py) | cephalopod homework | array slices & reshaping
+[Day 07](src/07_tachyon_beam.py) | tachyon beam | for loop
