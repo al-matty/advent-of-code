@@ -13,4 +13,4 @@ My attempt at solving all [Advent of Code 2025](https://adventofcode.com/2025) c
 [Day 03](src/03_batteries.py) | joltage strs | recursive fetching from list
 Day 04 [(part 1)](src/04_paper_rolls.py) [(part 2)](src/04_paper_rolls_part_2.py) | paper rolls | numpy arrays
 [Day 05](src/05_ingredient_ids.py) | ingredient IDs | range comparison
-[Day 06](src/06_cephalopod_homework.py) | cephalopod homework | array slices
+[Day 06](src/06_cephalopod_homework.py) | cephalopod homework | array slices & reshaping
