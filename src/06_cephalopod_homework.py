@@ -1,14 +1,14 @@
 """
 Plan part 1:
-    Split input into operands & operators
-    Create a matrix from operand cols
+    split input into operands & operators
+    create a matrix from operand cols
     iterate over cols: Collect sum() for '+' and prod() for '*'
 Plan part 2:
-    create array from whole input incl. operators, 1 char per col
-    add reshaping function
+    create array from whole input, 1 char per col
+    add reshaping function, run on that array
         compress/concatenate number strs vertically -> convert to int
         keep list of lists instead of array (different number amounts per group)
-    iterate list of lists & operators: Collect sum() for '+' and prod() for '*'
+    iterate over list of lists & operators: Collect sum() for '+' and prod() for '*'
 """
 import numpy as np
 from math import prod
