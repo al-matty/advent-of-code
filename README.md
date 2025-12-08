@@ -15,3 +15,4 @@ Day 04 [(part 1)](src/04_paper_rolls.py) [(part 2)](src/04_paper_rolls_part_2.py
 [Day 05](src/05_ingredient_ids.py) | ingredient IDs | range comparison
 [Day 06](src/06_cephalopod_homework.py) | cephalopod homework | array slices & reshaping
 [Day 07](src/07_tachyon_beam.py) | beam path possibilities | Pascal's triangle
+[Day 08](src/08_circuits.py) | find closest circuits | distance matrix
