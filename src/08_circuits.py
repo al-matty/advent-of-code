@@ -5,13 +5,13 @@ Plan part 1:
     circuits  <- list of id sets (1 set = one "circuit")
         
     make 1000 connections (always use smallest distance):
-        update matrix to ignore point pairs have been handled already
         find id pair of min value in distance matrix (= closest pair)
             if both ids new: create a new "circuit" set, add to circuits
             if one id part of a circuit already: add the new one to that set
             if neither id is new & not in same set: merge sets
-    sort list by len of tuple sets (lambda len), take first 3-item-slice
-    multiply lengths
+        update matrix to ignore point pairs that have been handled already
+    sort list by set size (lambda len)
+    take first 3-item-slice, multiply lengths
 """
 
 import numpy as np
