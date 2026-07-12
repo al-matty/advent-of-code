@@ -90,7 +90,7 @@ while True:
     
     # Case: Both ids are known already
     elif x_circuit_id is not None and y_circuit_id is not None:
-        
+
         # Case: Both known & in different circuits -> Merge them (set union)
         if x_circuit_id != y_circuit_id:
             circuits[x_circuit_id].update(circuits[y_circuit_id])

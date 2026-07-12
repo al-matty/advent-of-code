@@ -16,17 +16,14 @@ Plan part 1:
     output largest area at the end
 
 Plan part 2:
-    additionally create a limiting shape from input points (connected in order)
-    main_shape              <- bool mask: True = inside or on polygon boundary
-    build_shape()           <- trace polygon edges, fill interior between boundaries
-    is_within_main_shape()  <- True if ALL tiles in rectangle are within main_shape
-
-    to not get stuck: pre-generate all rectangles, sort by area descending
-    all_rects               <- list of (area, rect) tuples, sorted largest first
-    process largest first, skip smaller ones once valid rectangle found
-    early exit when remaining rectangles are all smaller than current best
+    create a limiting shape by iterating over input list
+    create a second bool mask: Anything outside of that shape is False
+    limiting_points     <- list of all corner points
+    is_within_limits    <- second bool mask
+    add this check to loop & leave everything else unchanged?
 """
 
+from sys import exit
 import numpy as np
 
 #in_file = "../data/09_input_test.txt"
@@ -90,10 +87,7 @@ def find_diagonal_rectangles(point, all_points):
 
 def build_shape(points, grid_shape_x, grid_shape_y):
     """Part 2 only: Build bool mask that's True for tiles inside the shape formed by points."""
-
-    # Make a copy to avoid mutating original list
-    points = points.copy()
-
+    
     # Initial full grid: all False
     bool_mask = np.full((grid_shape_x, grid_shape_y), False)
     print("\nbool_mask before:")
@@ -103,37 +97,26 @@ def build_shape(points, grid_shape_x, grid_shape_y):
     print("\npoints after wrap:")
     print(points)
 
+    # Create 2 lists from x and y coords
+    y = [point[1] for point in points]
+    y_unique_ordered = list(sorted(set(y)))
+    
+
     points_extended = []
 
-    # Trace lines between consecutive points (they always share row OR col)
-    for i in range(len(points) - 1):  # -1 because we already appended wrap
-        p1 = points[i]
-        p2 = points[i + 1]
-        print(f"\nTracing line from {p1} to {p2}")
-
-        # Case: Same row -> fill columns between them
-        if p1[0] == p2[0]:
-            row = p1[0]
-            col_start = min(p1[1], p2[1])
-            col_end = max(p1[1], p2[1])
-            print(f"Same row {row}, filling cols {col_start} to {col_end}")
-
-            for col in range(col_start, col_end + 1):
-                new_point = (row, col)
-                points_extended.append(new_point)
-                print(f"  Added {new_point}")
-
-        # Case: Same col -> fill rows between them
-        else:
-            col = p1[1]
-            row_start = min(p1[0], p2[0])
-            row_end = max(p1[0], p2[0])
-            print(f"Same col {col}, filling rows {row_start} to {row_end}")
-
-            for row in range(row_start, row_end + 1):
-                new_point = (row, col)
-                points_extended.append(new_point)
-                print(f"  Added {new_point}")
+    # Fill down vertically: Iterate over cols & generate points
+    for col in y_unique_ordered:
+        # Fetch all points with this y value
+        points_on_col = [point for point in points if point[1] == col]
+        ordered_x = sorted([p[0] for p in points_on_col])  # Get x-values & sort
+        print(f"These x vals are on col {col}:", ordered_x)
+        
+        # Fill gaps by creating points in between for all missing x values
+        filled_x = list(range(ordered_x[0], ordered_x[-1]+1))
+        print("Filled them:", filled_x)
+        new_points = [(x, col) for x in filled_x]
+        print("new_points:", new_points)
+        points_extended.extend(new_points)
 
     print("points_extended:", points_extended)
     
@@ -169,79 +152,76 @@ def build_shape(points, grid_shape_x, grid_shape_y):
     return bool_mask
 
 def is_within_main_shape(rect_coords, main_shape):
-    """Part 2 only: True if ALL tiles in rectangle are within main_shape."""
+    """Part 2 only: True if all rectangle coords are within main_shape."""
+    # rect_coords = list of 4 corner coords
+    return all(main_shape[coord] for coord in rect_coords)
 
-    # Initial check if any corner is outside
-    for coord in rect_coords:
-        if not main_shape[coord]:
-            return False
 
-    # Full check only if corners pass
-    rows = [coord[0] for coord in rect_coords]
-    cols = [coord[1] for coord in rect_coords]
-    rect_region = main_shape[min(rows):max(rows)+1, min(cols):max(cols)+1]
-    return rect_region.all()
-
+largest_area = 0
+seen_rectangles = set()
 
 # Convert points to (x, y) tuples (x and y are reversed in AoC data)
 all_points = [(int(x), int(y)) for y, x in points_arr]
 
-print("\nall_points:")
+print("\nall_points before func:")
 [print(p) for p in all_points]
+
 
 # If part 2: Additionally build outer shape as bool mask
 if part == 2:
     main_shape = build_shape(all_points, is_point.shape[0], is_point.shape[1])
 
-# Pre-generate all unique rectangle candidates with their areas
-print("Generating all rectangle candidates...")
-all_rects = []
-seen_rectangles = set()
+#exit() # TODO: Remove
 
-for point in all_points:
-    for other_point in all_points:
-        # Skip if same row or same col (need diagonal)
-        if other_point[0] == point[0] or other_point[1] == point[1]:
-            continue
+# Iterate over existing points only (NOT entire grid)
+for i, point in enumerate(all_points):
+    print(f"Iterating over {point}")
 
-        # Build rectangle
-        rect = [point, (point[0], other_point[1]), other_point, (other_point[0], point[1])]
+    # Find all rectangles with this point as corner
+    rectangles = find_diagonal_rectangles(point, all_points)
 
-        # Check if already seen
-        corners = [tuple(c) for c in rect]
-        corners.sort()
-        rect_key = tuple(corners)
-        if rect_key in seen_rectangles:
-            continue
-        seen_rectangles.add(rect_key)
-
-        # Store with area
-        area = get_area(rect)
-        all_rects.append((area, rect))
-
-print(f"Generated {len(all_rects)} unique rectangles")
-
-# Sort by area descending (largest first)
-all_rects.sort(reverse=True)
-
-# Process largest first - can stop early once we find a valid one
-largest_area = 0
-for i, (area, rect) in enumerate(all_rects):
-    # Skip if smaller than current best
-    if area <= largest_area:
-        print(f"Remaining {len(all_rects) - i} rectangles are smaller, done!")
-        break
-
-    # Check if valid (part 2)
-    if part == 2 and not is_within_main_shape(rect, main_shape):
+    # Case: No rectangles: Skip this point
+    if rectangles == []:
+        print(f"no diagonal points found for {point}")
         continue
 
-    # Found valid rectangle larger than current best
-    largest_area = area
-    print(f"New largest area: {largest_area}")
+    # Filter out already seen rectangles & ignore
+    new_rectangles = []
+    for rect in rectangles:
+        # Make comparable/searchable by sorting the corners
+        corners = [tuple(p) for p in rect]
+        corners.sort()
+        rect_tup = tuple(corners)
 
-print(f"\nPart {part} largest_area:", largest_area)
+        # Skip if already seen
+        if rect_tup in seen_rectangles:
+            continue
+        # Add to known rectangles set
+        seen_rectangles.add(rect_tup)
+        new_rectangles.append(rect)
+
+    if new_rectangles == []:
+        print("these ones have all been seen before")
+        continue
+
+    # Part 2: Filter to rectangles within main_shape
+    if part == 2:
+        new_rectangles = [r for r in new_rectangles if is_within_main_shape(r, main_shape)]
+        if new_rectangles == []:
+            print("no rectangles within main_shape")
+            continue
+
+    # Get largest rectangle area from the new rectangles
+    print(f"found {len(new_rectangles)} new rectangles")
+    max_area = max(get_area(rect) for rect in new_rectangles)
+
+    # Update largest_area if larger found
+    if max_area > largest_area:
+        largest_area = max_area
+        print(f"\t\t\t\tnew largest area found: {largest_area}")
 
 
-# Answer too high:  4653414735
-# Answer too low:   336022830
+print("\nPart 1 (largest_area):", largest_area)
+
+
+# Answer too high: 4653414735
